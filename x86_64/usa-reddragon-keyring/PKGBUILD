@@ -1,0 +1,19 @@
+# Maintainer: USA-RedDragon <arch-pkgbuilds-keyring@mcswain.dev>
+# Thanks for archlinuxcn and chaotic-aur for their packages that I've used as template!
+
+pkgname='usa-reddragon-keyring'
+pkgver='20230501'
+pkgrel=1
+pkgdesc='USA-RedDragon PGP keyring'
+arch=('any')
+url='https://github.com/USA-RedDragon/arch-pkgbuilds'
+license=('GPL')
+depends=('archlinux-keyring')
+install=$pkgname.install
+source=("keyring.tar.gz::https://github.com/USA-RedDragon/arch-pkgbuilds-keyring/archive/$pkgver-$pkgrel.tar.gz")
+sha512sums=('a64e7af103526054a9b439ea47ee8a5ecd86ab767713921aab89b31cc7e6a6de6509b858a593b9a39ddc3280317eb076adbfb897583ef699777cb5e4b3d14e4d')
+
+package() {
+  cd "$srcdir/arch-pkgbuilds-keyring-$pkgver-$pkgrel"
+  make PREFIX=/usr "DESTDIR=$pkgdir" install
+}
