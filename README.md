@@ -1,4 +1,4 @@
-# arch-pkgbuilds
+# arch-packages (binary branch)
 
 Personal package repository
 
