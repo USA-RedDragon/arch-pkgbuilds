@@ -1,5 +1,0 @@
-keyring.tar.gz
-*.pkg.tar.zst
-!bin/*.pkg.tar.zst
-/src/
-/pkg/

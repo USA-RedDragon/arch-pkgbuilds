@@ -1,14 +1,14 @@
 pkgbase = usa-reddragon-keyring
 	pkgdesc = USA-RedDragon PGP keyring
-	pkgver = 20220803
-	pkgrel = 1
-	url = https://github.com/USA-RedDragon/arch-pkgbuilds-keyring
+	pkgver = 20230501
+	pkgrel = 3
+	url = https://github.com/USA-RedDragon/arch-packages
 	install = usa-reddragon-keyring.install
 	arch = any
 	license = GPL
 	depends = archlinux-keyring
-	optdepends = pkgstats: install to submit package usage statistics
-	source = keyring.tar.gz::https://github.com/USA-RedDragon/arch-pkgbuilds-keyring/archive/20230501-1.tar.gz
-	sha512sums = a64e7af103526054a9b439ea47ee8a5ecd86ab767713921aab89b31cc7e6a6de6509b858a593b9a39ddc3280317eb076adbfb897583ef699777cb5e4b3d14e4d
+	depends = make
+	source = keyring.tar.gz::https://github.com/USA-RedDragon/arch-packages-keyring/archive/20230501.tar.gz
+	sha512sums = cd78496e0bdfb2f4a2d2bd0f3f8561e26facf2162c1f726015ee0ea967b06b114f001c1ca9105bce45838de72356a7bc6b4f10c6850a7345dddee6073c6fead1
 
 pkgname = usa-reddragon-keyring

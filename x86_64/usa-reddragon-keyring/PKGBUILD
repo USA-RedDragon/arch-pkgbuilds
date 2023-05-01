@@ -3,17 +3,17 @@
 
 pkgname='usa-reddragon-keyring'
 pkgver='20230501'
-pkgrel=1
+pkgrel=3
 pkgdesc='USA-RedDragon PGP keyring'
 arch=('any')
-url='https://github.com/USA-RedDragon/arch-pkgbuilds'
+url='https://github.com/USA-RedDragon/arch-packages'
 license=('GPL')
 depends=('archlinux-keyring')
 install=$pkgname.install
-source=("keyring.tar.gz::https://github.com/USA-RedDragon/arch-pkgbuilds-keyring/archive/$pkgver-$pkgrel.tar.gz")
-sha512sums=('a64e7af103526054a9b439ea47ee8a5ecd86ab767713921aab89b31cc7e6a6de6509b858a593b9a39ddc3280317eb076adbfb897583ef699777cb5e4b3d14e4d')
+source=("keyring.tar.gz::https://github.com/USA-RedDragon/arch-packages-keyring/archive/$pkgver.tar.gz")
+sha512sums=('cd78496e0bdfb2f4a2d2bd0f3f8561e26facf2162c1f726015ee0ea967b06b114f001c1ca9105bce45838de72356a7bc6b4f10c6850a7345dddee6073c6fead1')
 
 package() {
-  cd "$srcdir/arch-pkgbuilds-keyring-$pkgver-$pkgrel"
+  cd "$srcdir/arch-packages-keyring-$pkgver"
   make PREFIX=/usr "DESTDIR=$pkgdir" install
 }
