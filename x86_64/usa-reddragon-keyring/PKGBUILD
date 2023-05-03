@@ -3,7 +3,7 @@
 
 pkgname='usa-reddragon-keyring'
 pkgver='20230501'
-pkgrel=3
+pkgrel=4
 pkgdesc='USA-RedDragon PGP keyring'
 arch=('any')
 url='https://github.com/USA-RedDragon/arch-packages'
