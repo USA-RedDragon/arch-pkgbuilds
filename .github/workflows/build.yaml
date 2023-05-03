@@ -87,6 +87,12 @@ jobs:
             git add "x86_64/$current.sig"
 
             repo-add -R -s -k $GPG_KEY x86_64/USA-RedDragon.db.tar.zst "x86_64/$current"
+            rm -f x86_64/USA-RedDragon.db x86_64/USA-RedDragon.files x86_64/USA-RedDragon.db.sig x86_64/USA-RedDragon.files.sig
+            cp x86_64/USA-RedDragon.db.tar.zst x86_64/USA-RedDragon.db
+            cp x86_64/USA-RedDragon.db.tar.zst.sig x86_64/USA-RedDragon.db.sig
+            cp x86_64/USA-RedDragon.files.tar.zst x86_64/USA-RedDragon.files
+            cp x86_64/USA-RedDragon.files.tar.zst.sig x86_64/USA-RedDragon.files.sig
+
             git add x86_64/USA-RedDragon.db*
             git add x86_64/USA-RedDragon.files*
 
