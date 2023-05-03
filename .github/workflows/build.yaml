@@ -48,9 +48,13 @@ jobs:
       shell: bash
       run: |
         cd $GITHUB_WORKSPACE/source/x86_64
+        last_head=$(git rev-parse HEAD^1)
+        new_head=$(git rev-parse HEAD)
         for pkgbuild in $(find . -type f -name PKGBUILD); do
           pkgdir=$(dirname $pkgbuild)
-          if [[ "$(git diff --name-only HEAD^1 HEAD -- $pkgdir)" ]]; then
+          echo "Checking $pkgdir"
+          if [[ "$(git diff --name-only $last_head $new_head -- $pkgdir)" ]]; then
+            echo "$pkgdir has changed"
             cd $pkgdir
             # Strip the leading "./" from the path
             pkgname=${pkgdir:2}
@@ -61,14 +65,15 @@ jobs:
             if [ $ret -ne 0 ]; then
               echo "Failed to verify source files for ${pkgname}"
             fi
-            su user -c 'makepkg -s -c -f -r --noconfirm'
             su user -c 'makepkg --printsrcinfo > .SRCINFO'
             if [ "$(git status -s .SRCINFO)" != "" ]; then
               echo "Updating .SRCINFO for ${pkgname}"
               git add .SRCINFO
               git commit -m "Update ${pkgname} .SRCINFO"
+              git pull --rebase origin main
               git push origin main
             fi
+            su user -c 'makepkg -s -c -f -r --noconfirm'
             chown -R root:root .
 
             current=""
