@@ -1,0 +1,14 @@
+pkgbase = usa-reddragon-base
+	pkgdesc = USA-RedDragon Base Packages (meta-package)
+	pkgver = 1.0
+	pkgrel = 1
+	url = https://github.com/USA-RedDragon/arch-packages
+	arch = any
+	license = None
+	depends = usa-reddragon-keyring
+	depends = plasma-wayland-session
+	depends = egl-wayland
+	depends = sddm
+	depends = sddm-kcm
+
+pkgname = usa-reddragon-base

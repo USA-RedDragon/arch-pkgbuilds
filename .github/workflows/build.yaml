@@ -45,6 +45,7 @@ jobs:
         git config --global user.email "arch-pkgbuilds-keyring@mcswain.dev"
         git config --global --add safe.directory $GITHUB_WORKSPACE
     - name: Build
+      shell: bash
       run: |
         cd $GITHUB_WORKSPACE/source/x86_64
         for pkgbuild in $(find . -type f -name PKGBUILD); do
@@ -55,34 +56,47 @@ jobs:
             pkgname=${pkgdir:2}
 
             chown -R user:user .
+            su user -c 'makepkg --verifysource'
+            ret=$?
+            if [ $ret -ne 0 ]; then
+              echo "Failed to verify source files for ${pkgname}"
+            fi
             su user -c 'makepkg -s -c -f -r --noconfirm'
+            su user -c 'makepkg --printsrcinfo > .SRCINFO'
+            if [ "$(git status -s .SRCINFO)" != "" ]; then
+              echo "Updating .SRCINFO for ${pkgname}"
+              git add .SRCINFO
+              git commit -m "Update ${pkgname} .SRCINFO"
+              git push origin main
+            fi
             chown -R root:root .
 
-            current=$(ls *.pkg.tar.zst)
+            current=""
+            if compgen -G "*.pkg.tar.zst" > /dev/null; then
+              current=$(ls *.pkg.tar.zst)
+            else
+              echo "No package found for ${pkgname}"
+              cd $GITHUB_WORKSPACE/source/x86_64
+              continue
+            fi
             current_version=$(echo $current | sed -E 's/.*-([0-9]{8})-([0-9]+)-.*/\1-\2/')
 
             gpg --use-agent --output $current.sig --detach-sig $current
 
-            previous=$(ls $GITHUB_WORKSPACE/bins/x86_64/${pkgname}*.pkg.tar.zst)
+            previous=""
+            if compgen -G "$GITHUB_WORKSPACE/bins/x86_64/${pkgname}*.pkg.tar.zst" > /dev/null; then
+              previous=$(ls $GITHUB_WORKSPACE/bins/x86_64/${pkgname}*.pkg.tar.zst)
+            fi
             previous_version=$(echo $previous | sed -E 's/.*-([0-9]{8})-([0-9]+)-.*/\1-\2/')
 
             if [[ "$previous_version" == "$current_version" ]]; then
               echo "Package ${pkgname} is already up to date"
+              cd $GITHUB_WORKSPACE/source/x86_64
               continue
             fi
 
             mv *.pkg.tar.zst $GITHUB_WORKSPACE/bins/x86_64
             mv *.pkg.tar.zst.sig $GITHUB_WORKSPACE/bins/x86_64
-
-            makepkg --verifysource
-            ret=$?
-            if [ $ret -ne 0 ]; then
-              echo "Failed to verify source files for ${pkgname}"
-            fi
-            makepkg --printsrcinfo > .SRCINFO
-            git add .SRCINFO
-            git commit -m "Update ${pkgname} .SRCINFO"
-            git push origin main
 
             cd $GITHUB_WORKSPACE/bins
             if [[ -f "$previous" ]]; then

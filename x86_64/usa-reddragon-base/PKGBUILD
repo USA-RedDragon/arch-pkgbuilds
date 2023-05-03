@@ -1,0 +1,17 @@
+# Maintainer: USA-RedDragon <arch-pkgbuilds-keyring@mcswain.dev>
+# Thanks for archlinuxcn and chaotic-aur for their packages that I've used as template!
+
+pkgname='usa-reddragon-base'
+pkgver=1.0
+pkgrel=1
+pkgdesc='USA-RedDragon Base Packages (meta-package)'
+arch=('any')
+url='https://github.com/USA-RedDragon/arch-packages'
+license=(None)
+depends=(
+  'usa-reddragon-keyring'
+  'plasma-wayland-session'
+  'egl-wayland'
+  'sddm'
+  'sddm-kcm'
+)
