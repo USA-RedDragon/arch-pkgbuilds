@@ -74,6 +74,16 @@ jobs:
             mv *.pkg.tar.zst $GITHUB_WORKSPACE/bins/x86_64
             mv *.pkg.tar.zst.sig $GITHUB_WORKSPACE/bins/x86_64
 
+            makepkg --verifysource
+            ret=$?
+            if [ $ret -ne 0 ]; then
+              echo "Failed to verify source files for ${pkgname}"
+            fi
+            makepkg --printsrcinfo > .SRCINFO
+            git add .SRCINFO
+            git commit -m "Update ${pkgname} .SRCINFO"
+            git push origin main
+
             cd $GITHUB_WORKSPACE/bins
             if [[ -f "$previous" ]]; then
               git rm -f "x86_64/${pkgname}-$previous_version*.pkg.tar.zst"

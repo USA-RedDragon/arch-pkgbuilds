@@ -7,7 +7,6 @@ pkgbase = usa-reddragon-keyring
 	arch = any
 	license = GPL
 	depends = archlinux-keyring
-	depends = make
 	source = keyring.tar.gz::https://github.com/USA-RedDragon/arch-packages-keyring/archive/20230501.tar.gz
 	sha512sums = cd78496e0bdfb2f4a2d2bd0f3f8561e26facf2162c1f726015ee0ea967b06b114f001c1ca9105bce45838de72356a7bc6b4f10c6850a7345dddee6073c6fead1
 
