@@ -1,7 +1,7 @@
 pkgbase = usa-reddragon-keyring
 	pkgdesc = USA-RedDragon PGP keyring
 	pkgver = 20230501
-	pkgrel = 5
+	pkgrel = 6
 	url = https://github.com/USA-RedDragon/arch-packages
 	install = usa-reddragon-keyring.install
 	arch = any
