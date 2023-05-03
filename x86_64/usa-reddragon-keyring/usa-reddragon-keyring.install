@@ -42,8 +42,8 @@ post_upgrade() {
                         exit 1
                 fi
         fi
-    if (usr/bin/grep -A3 "[^#]*\[usa-reddragon-aur\]" /etc/pacman.conf | grep "TrustAll" >/dev/null 2>&1); then
-        _error 'Please remove the SigLevel= line of [usa-reddragon-aur] from "/etc/pacman.conf" to use the default setting'
+    if (usr/bin/grep -A3 "[^#]*\[usa-reddragon\]" /etc/pacman.conf | grep "TrustAll" >/dev/null 2>&1); then
+        _error 'Please remove the SigLevel= line of [usa-reddragon] from "/etc/pacman.conf" to use the default setting'
     fi  
 }
 

@@ -5,7 +5,7 @@ Personal package repository
 To use it, add
 
 ```ini
-[USA-RedDragon]
+[usa-reddragon]
 Server = https://raw.githubusercontent.com/USA-RedDragon/arch-pkgbuilds/bins/$arch
 ```
 
