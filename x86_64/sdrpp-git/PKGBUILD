@@ -4,7 +4,7 @@
 _pkgname=sdrpp
 pkgname="$_pkgname-git"
 pkgver=1.0.4.r462.3336ae4
-pkgrel=1
+pkgrel=2
 pkgdesc="The Bloat-free SDR Receiver"
 arch=(x86_64)
 url="https://github.com/AlexandreRouma/SDRPlusPlus"
