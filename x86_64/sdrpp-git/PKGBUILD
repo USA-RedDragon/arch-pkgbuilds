@@ -4,13 +4,13 @@
 _pkgname=sdrpp
 pkgname="$_pkgname-git"
 pkgver=1.0.4.r462.3336ae4
-pkgrel=2
+pkgrel=3
 pkgdesc="The Bloat-free SDR Receiver"
 arch=(x86_64)
 url="https://github.com/AlexandreRouma/SDRPlusPlus"
 license=(GPL3)
 depends=(fftw glfw glew libvolk rtaudio)
-_plugindeps=(airspy airspyhf-git bladerf hackrf libad9361 libiio libsdrplay limesuite rtl-sdr soapysdr codec2)
+_plugindeps=(airspy bladerf hackrf libad9361 libiio limesuite rtl-sdr soapysdr codec2)
 makedepends=(cmake git "${_plugindeps[@]}")
 optdepends=("${_plugindeps[@]}")
 provides=("$_pkgname")
