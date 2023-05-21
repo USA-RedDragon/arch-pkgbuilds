@@ -51,8 +51,6 @@ depends=(
   'kicad-library'
   'kicad-library-3d'
 
-  'arduino-ide-bin'
-  'plex-media-server-plexpass'
   'gnome-keyring'
 
   # Toolchains
@@ -159,7 +157,6 @@ depends=(
 
   # Applications
   'audacity'
-  'betaflight-configurator'
   'chromium'
   'darktable'
   'discord'
@@ -168,8 +165,6 @@ depends=(
   'gimp'
   'inkscape'
   'remmina'
-  'slack-desktop'
-  'spotify'
   'steam'
   'telegram-desktop'
   'vlc'
