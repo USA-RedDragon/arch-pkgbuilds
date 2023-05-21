@@ -3,15 +3,35 @@
 
 pkgname='usa-reddragon-base'
 pkgver=1.0
-pkgrel=3
+pkgrel=5
 pkgdesc='USA-RedDragon Base Packages (meta-package)'
 arch=('any')
 url='https://github.com/USA-RedDragon/arch-packages'
 license=(None)
 depends=(
+  # Base
   'usa-reddragon-keyring'
+
+  'plymouth'
+
+  # KDE Plasma
+  'plasma-meta'
   'plasma-wayland-session'
+  'kde-system-meta'
   'egl-wayland'
   'sddm'
   'sddm-kcm'
+  'xdg-desktop-portal-kde'
+  'kde-gtk-config'
+  'ark'
+  'konsole'
+  'kwalletmanager'
+  'gwenview'
+  'okular'
+  'breeze-plymouth'
+  'plymouth-kcm'
+
+  # Kernel
+  'linux-hardened'
+  'linux-hardened-headers'
 )
