@@ -48,6 +48,8 @@ jobs:
       shell: bash
       run: |
         cd $GITHUB_WORKSPACE/source/x86_64
+        git config --global http.version HTTP/1.1
+        export MAKEFLAGS="-j$(nproc)"
         last_head=$(git rev-parse HEAD^1)
         new_head=$(git rev-parse HEAD)
         for pkgbuild in $(find . -type f -name PKGBUILD); do
