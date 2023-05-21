@@ -3,7 +3,7 @@
 
 pkgname='usa-reddragon-base'
 pkgver=1.0
-pkgrel=8
+pkgrel=9
 pkgdesc='USA-RedDragon Base Packages (meta-package)'
 arch=('any')
 url='https://github.com/USA-RedDragon/arch-packages'
