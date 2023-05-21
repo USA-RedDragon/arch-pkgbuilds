@@ -47,12 +47,10 @@ jobs:
     - name: Build
       shell: bash
       run: |
+        reflector -p https --delay 0.5 --fastest 15 --sort rate --save /etc/pacman.d/mirrorlist
         cd $GITHUB_WORKSPACE/source/x86_64
         # https://github.com/orgs/community/discussions/55820#discussioncomment-5946136
         git config --global http.version HTTP/1.1
-        # Not trying to call anyone out here
-        # I just had issues with GH actions and this mirror
-        sed -i '/pkgbuild.com/d' /etc/pacman.d/mirrorlist
         export MAKEFLAGS="-j$(nproc)"
         last_head=$(git rev-parse HEAD^1)
         new_head=$(git rev-parse HEAD)
