@@ -3,7 +3,7 @@
 
 pkgname='usa-reddragon-base'
 pkgver=1.0
-pkgrel=9
+pkgrel=10
 pkgdesc='USA-RedDragon Base Packages (meta-package)'
 arch=('any')
 url='https://github.com/USA-RedDragon/arch-packages'
@@ -28,6 +28,8 @@ depends=(
   'konsole'
   'kwalletmanager'
   'gwenview'
+  'qt5-imageformats'
+  'kimageformats'
   'okular'
   'breeze-plymouth'
   'plymouth-kcm'
@@ -36,10 +38,35 @@ depends=(
   'latte-dock'
   'networkmanager-openvpn'
   'libdbusmenu-glib'
+  'kdegraphics-thumbnailers'
+  'ffmpegthumbs'
+  'icoutils'
+  'libappimage'
+  'qt5-imageformats'
+  'libappimage'
+  'keditbookmarks'
+
+  'ttf-dejavu'
+
+  'dracut'
+
+  'lib32-nvidia-utils'
+
+  'pulseaudio-bluetooth'
+  'pipewire-jack'
+  'libva-mesa-driver'
+  'gst-plugin-pipewire'
+  'pipewire-alsa'
+  'pipewire-audio'
+  'pipewire-pulse'
+  'pipewire-v4l2'
+  # 'pulseaudio-alsa'
 
   # Kernel
   'linux-hardened'
   'linux-hardened-headers'
+  'linux-firmware'
+  'wireless-regdb'
 
   # For the lols
   'supertuxkart'
@@ -58,6 +85,7 @@ depends=(
   'aarch64-linux-gnu-gdb'
   'arm-none-eabi-gcc'
   'arm-none-eabi-gdb'
+  'arm-none-eabi-newlib'
   'clang'
   'lld'
   'llvm'
@@ -70,15 +98,19 @@ depends=(
   'cmake'
   'docker'
   'docker-compose'
+  'docker-buildx'
   'dos2unix'
   'git'
   'ninja'
   'nodejs'
+  'npm'
   'openssh'
   'openssl'
   'postgresql'
   'python'
   'python-pip'
+  'strace'
+  'r2ghidra'
 
   'powerline'
   'powerline-fonts'
@@ -188,15 +220,22 @@ depends=(
   'zstd'
   'lz4'
   'cpio'
+  'unarchiver'
+  'lzop'
+  'lrzip'
+  'arj'
 
   # Filesystems
   'cifs-utils'
   'dosfstools'
   'e2fsprogs'
-  'exfatprogs'
+  'exfat-utils'
   'f2fs-tools'
   'nfs-utils'
   'squashfs-tools'
+  'ntfs-3g'
+  'fatresize'
+  'samba'
 
   # CUPS
   'cups'
