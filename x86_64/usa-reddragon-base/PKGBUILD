@@ -3,7 +3,7 @@
 
 pkgname='usa-reddragon-base'
 pkgver=1.0
-pkgrel=5
+pkgrel=6
 pkgdesc='USA-RedDragon Base Packages (meta-package)'
 arch=('any')
 url='https://github.com/USA-RedDragon/arch-packages'
@@ -11,6 +11,7 @@ license=(None)
 depends=(
   # Base
   'usa-reddragon-keyring'
+  'base-devel'
 
   'plymouth'
 
@@ -30,8 +31,184 @@ depends=(
   'okular'
   'breeze-plymouth'
   'plymouth-kcm'
+  'partitionmanager'
+  'konversation'
+  'latte-dock'
+  'networkmanager-openvpn'
+  'libdbusmenu-glib'
 
   # Kernel
   'linux-hardened'
   'linux-hardened-headers'
+
+  # For the lols
+  'supertuxkart'
+  'kbreakout'
+  'kbounce'
+
+  # Kicad
+  'kicad'
+  'kicad-library'
+  'kicad-library-3d'
+
+  'arduino-ide-bin'
+  'plex-media-server-plexpass'
+  'gnome-keyring'
+
+  # Toolchains
+  'aarch64-linux-gnu-gcc'
+  'aarch64-linux-gnu-gdb'
+  'arm-none-eabi-gcc'
+  'arm-none-eabi-gdb'
+  'clang'
+  'lld'
+  'llvm'
+  'gcc'
+  'gdb'
+
+  # Development tools
+  'bazel'
+  'ccache'
+  'cmake'
+  'docker'
+  'docker-compose'
+  'dos2unix'
+  'git'
+  'ninja'
+  'nodejs'
+  'openssh'
+  'openssl'
+  'postgresql'
+  'python'
+  'python-pip'
+
+  'powerline'
+  'powerline-fonts'
+
+  # QEMU
+  'edk2-aarch64'
+  'edk2-arm'
+  'edk2-ovmf'
+  'qemu-system-aarch64'
+  'qemu-system-arm'
+  'qemu-system-riscv'
+  'qemu-system-x86'
+  'qemu-user'
+  'qemu-user-binfmt'
+  'qemu-desktop'
+
+  # Android
+  'android-udev'
+  'android-tools'
+
+  # Misc tools
+  'archiso'
+  'curl'
+  'dmidecode'
+  'efibootmgr'
+  'ffmpeg'
+  'findutils'
+  'fwupd'
+  'fwupd-efi'
+  'grep'
+  'htop'
+  'imagemagick'
+  'iperf3'
+  'iproute2'
+  'lm_sensors'
+  'nano'
+  'neofetch'
+  'nftables'
+  'radare2'
+  'read-edid'
+  'reflector'
+  'ripgrep'
+  'rsync'
+  'sqlite'
+  'traceroute'
+  'which'
+  'wget'
+  'wireguard-tools'
+  'zsh-autosuggestions'
+  'zsh-completions'
+  'zsh-history-substring-search'
+  'zsh-syntax-highlighting'
+
+  # Virtualbox
+  'virtualbox'
+  'virtualbox-host-dkms'
+  'virtualbox-guest-utils'
+
+  'rtl-sdr'
+
+  'hunspell'
+  'kernel-modules-hook'
+  'nvidia-settings'
+  'nvidia-utils'
+
+  # Java
+  'icedtea-web'
+  'jdk-openjdk'
+  'jdk11-openjdk'
+  'jre-openjdk'
+  'jre11-openjdk'
+
+  'mono'
+  'wine'
+  'winetricks'
+
+  # Applications
+  'audacity'
+  'betaflight-configurator'
+  'chromium'
+  'darktable'
+  'discord'
+  'firefox'
+  'flameshot'
+  'gimp'
+  'inkscape'
+  'remmina'
+  'slack-desktop'
+  'spotify'
+  'steam'
+  'telegram-desktop'
+  'vlc'
+  'wireshark-cli'
+  'wireshark-qt'
+  'zoom'
+
+  # DevOps
+  'aws-cli'
+  'helm'
+
+  # Compression
+  'tar'
+  'bzip2'
+  'pigz'
+  'gzip'
+  'unzip'
+  'zip'
+  'unrar'
+  'p7zip'
+  'xz'
+  'zstd'
+  'lz4'
+  'cpio'
+
+  # Filesystems
+  'cifs-utils'
+  'dosfstools'
+  'e2fsprogs'
+  'exfatprogs'
+  'f2fs-tools'
+  'nfs-utils'
+  'squashfs-tools'
+
+  # CUPS
+  'cups'
+  'cups-pdf'
+  'cups-pk-helper'
+
+  'ca-certificates'
+
 )
