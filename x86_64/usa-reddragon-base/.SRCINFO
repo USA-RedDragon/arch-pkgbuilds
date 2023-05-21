@@ -1,7 +1,7 @@
 pkgbase = usa-reddragon-base
 	pkgdesc = USA-RedDragon Base Packages (meta-package)
 	pkgver = 1.0
-	pkgrel = 11
+	pkgrel = 12
 	url = https://github.com/USA-RedDragon/arch-packages
 	arch = any
 	license = None
