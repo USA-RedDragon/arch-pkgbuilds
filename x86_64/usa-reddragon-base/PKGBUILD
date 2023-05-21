@@ -3,7 +3,7 @@
 
 pkgname='usa-reddragon-base'
 pkgver=1.0
-pkgrel=10
+pkgrel=11
 pkgdesc='USA-RedDragon Base Packages (meta-package)'
 arch=('any')
 url='https://github.com/USA-RedDragon/arch-packages'
@@ -12,6 +12,7 @@ depends=(
   # Base
   'usa-reddragon-keyring'
   'base-devel'
+  'pacman-contrib'
 
   'plymouth'
 
