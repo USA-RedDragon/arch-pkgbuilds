@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/usa-reddragon/archlinux-pkgbuild
+      image: ghcr.io/usa-reddragon/archlinux-pkgbuild:latest@sha256:5820435f6da08efa89a97213bef9510e75740f5632db8da8563f1dca5be7ed4b 
       options: --privileged
     steps:
     - name: Update
