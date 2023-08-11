@@ -1,7 +1,7 @@
 pkgbase = usa-reddragon-base
 	pkgdesc = USA-RedDragon Base Packages (meta-package)
 	pkgver = 1.0
-	pkgrel = 13
+	pkgrel = 14
 	url = https://github.com/USA-RedDragon/arch-packages
 	arch = any
 	license = None
@@ -49,8 +49,6 @@ pkgbase = usa-reddragon-base
 	depends = pipewire-audio
 	depends = pipewire-pulse
 	depends = pipewire-v4l2
-	depends = linux-hardened
-	depends = linux-hardened-headers
 	depends = linux-firmware
 	depends = wireless-regdb
 	depends = supertuxkart
