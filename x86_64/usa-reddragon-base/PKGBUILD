@@ -3,7 +3,7 @@
 
 pkgname='usa-reddragon-base'
 pkgver=1.0
-pkgrel=13
+pkgrel=14
 pkgdesc='USA-RedDragon Base Packages (meta-package)'
 arch=('any')
 url='https://github.com/USA-RedDragon/arch-packages'
@@ -64,8 +64,6 @@ depends=(
   # 'pulseaudio-alsa'
 
   # Kernel
-  'linux-hardened'
-  'linux-hardened-headers'
   'linux-firmware'
   'wireless-regdb'
 
