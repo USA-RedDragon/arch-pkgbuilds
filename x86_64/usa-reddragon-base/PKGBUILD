@@ -36,7 +36,6 @@ depends=(
   'plymouth-kcm'
   'partitionmanager'
   'konversation'
-  'latte-dock-git'
   'networkmanager-openvpn'
   'libdbusmenu-glib'
   'kdegraphics-thumbnailers'

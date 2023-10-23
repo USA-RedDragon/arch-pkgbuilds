@@ -28,7 +28,6 @@ pkgbase = usa-reddragon-base
 	depends = plymouth-kcm
 	depends = partitionmanager
 	depends = konversation
-	depends = latte-dock-git
 	depends = networkmanager-openvpn
 	depends = libdbusmenu-glib
 	depends = kdegraphics-thumbnailers
