@@ -178,8 +178,6 @@ depends=(
   'icedtea-web'
   'jdk-openjdk'
   'jdk11-openjdk'
-  'jre-openjdk'
-  'jre11-openjdk'
 
   'mono'
   'wine'
