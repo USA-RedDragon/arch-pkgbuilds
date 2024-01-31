@@ -1,0 +1,266 @@
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Daniel Micay <danielmicay@gmail.com>
+# Contributor: Tobias Powalowski <tpowa@archlinux.org>
+# Contributor: Thomas Baechler <thomas@archlinux.org>
+
+pkgbase=linux-hardened
+pkgver=6.7.2.hardened1
+pkgrel=2
+pkgdesc='Security-Hardened Linux'
+url='https://github.com/anthraxx/linux-hardened'
+arch=(x86_64)
+license=(GPL2)
+makedepends=(
+  bc
+  cpio
+  gettext
+  libelf
+  pahole
+  perl
+  python
+  tar
+  xz
+
+  # htmldocs
+  graphviz
+  imagemagick
+  python-sphinx
+  texlive-latexextra
+
+  clang
+  llvm
+  lld
+)
+options=('!strip')
+_srcname=linux-${pkgver%.*}
+_srctag=${pkgver%.*}-${pkgver##*.}
+source=(
+  https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.{xz,sign}
+  ${url}/releases/download/${_srctag}/${pkgbase}-${_srctag}.patch{,.sig}
+  config  # the main kernel config file
+  01-platform_chrome_cros_ec_lpc_introduce_a_priv_struct_for_the_lpc_device.patch
+  02-platform_chrome_cros_ec_lpc_pass_driver_data_from_DMI_to_the_device.patch
+  03-platform_chrome_cros_ec_lpc_add_a_quirks_system.patch
+  04-platform_chrome_cros_ec_lpc_add_quirks_for_the_Framework_Laptop_AMD.patch
+)
+validpgpkeys=(
+  ABAF11C65A2970B130ABE3C479BE3E4300411886  # Linus Torvalds
+  647F28654894E3BD457199BE38DBBDC86092693E  # Greg Kroah-Hartman
+  E240B57E2C4630BA768E2F26FC1B547C8D8172C8  # Levente Polyak
+)
+# https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
+sha256sums=('c34de41baa29c475c0834e88a3171e255ff86cd32d83c6bffc2b797e60bfa671'
+            'SKIP'
+            'f1a21eab19a3685f6cabaef93c520fa0061202b978ba64d539af0de690c375d6'
+            'SKIP'
+            '79aa07a1108582118c5e4721b9b5440053791d7a98ceb9538d42a511e39097eb'
+            'afd4ba3da50df5a6678e1dc38d8a34c5d8c47ae7bc6b6cf9d9f4c5224c5839dd'
+            '603ed72d5a0c7e5fa1c063ea8912e388d6783f8bc0641d6295d00649238273df'
+            'b0a0851f6e24808c1269d4eb72429320bea11766d0b00f048f7303514d1745ec'
+            '127f91db733ac32b3b70798c0510a7ad6a5ae3bbd7ba1b52df95d0f3bb8042be'
+)
+b2sums=('4c1f480de0c1458aa67379cd02d35708f63850adb84a85061088de1f82b5d084bc7cf7da459a3f1e415544351d1f36a9a832277240774ae461cdde11687cbadd'
+        'SKIP'
+        'c97573edb0e765b35c9ebc1a091889aa924be997d57a8acf8a9221edd36ab8b4823c6521dc31838c4c4ec9e23bf39a5c462bc7ab99baf81dddf8c92fd8cfe10f'
+        'SKIP'
+        'ca79cea706454ee6aab3bfbc01d3067cef4fdfd49413c8bca52480596ec394d932a4e252b4bbcc3a605bd3a56b4b73493c47a7cdd3e984a5b42767fce0f1c025'
+        '2d9bcb3fb8ace28d306899ae040ac994a8f695e4104f8f444f8ea82b8d6770d7961e3ec63881bf885f88a5dc6f52a67bc2d1fde9b77f53aa2e0f51542ef86dc7'
+        'b95e0f97d4d1d0210d490337cbc3553f9e6085a1ac1c9818b589000002354f77c87002510275eb5d991e5c1c2ab9465861c1cfcc7d355e3abfe32f46a71f684b'
+        'a80b68abb9f32d26bb6615874dd3863d1f58df4e4db1426e832dff84901f19b40c3e3bd38c70e933ce294978a7673398aa67558c4259b3f685a441511abaa99d'
+        '6ffceb0fa3cb50364a9e718d8e9d69717ea5671a59c5007b57af77b6f8e0305a4d74ab233d9e19c9f348c201369837d83d66e91e7ad7401bdd3440e1ef0e8e11'
+)
+
+export KBUILD_BUILD_HOST=archlinux
+export KBUILD_BUILD_USER=$pkgbase
+export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+
+prepare() {
+  cd $_srcname
+
+  echo "Setting version..."
+  echo "-$pkgrel" > localversion.10-pkgrel
+  echo "${pkgbase#linux}" > localversion.20-pkgname
+
+  local src
+  for src in "${source[@]}"; do
+    src="${src%%::*}"
+    src="${src##*/}"
+    src="${src%.zst}"
+    [[ $src = *.patch ]] || continue
+    echo "Applying patch $src..."
+    patch -Np1 < "../$src"
+  done
+
+  echo "Setting config..."
+  cp ../config .config
+  scripts/config -e LTO_CLANG_THIN
+  make LLVM=1 LLVM_IAS=1 olddefconfig
+  diff -u ../config .config || :
+
+  make -s kernelrelease > version
+  echo "Prepared $pkgbase version $(<version)"
+}
+
+build() {
+  cd $_srcname
+
+  make htmldocs &
+  local pid_docs=$!
+
+  make LLVM=1 LLVM_IAS=1 all
+  wait "${pid_docs}"
+}
+
+_package() {
+  pkgdesc="The $pkgdesc kernel and modules"
+  depends=(
+    coreutils
+    initramfs
+    kmod
+  )
+  optdepends=(
+    'wireless-regdb: to set the correct wireless channels of your country'
+    'linux-firmware: firmware images needed for some devices'
+    'usbctl: deny_new_usb control'
+  )
+  provides=(
+    KSMBD-MODULE
+    VIRTUALBOX-GUEST-MODULES
+    WIREGUARD-MODULE
+  )
+  replaces=(
+  )
+
+  cd $_srcname
+  local modulesdir="$pkgdir/usr/lib/modules/$(<version)"
+
+  echo "Installing boot image..."
+  # systemd expects to find the kernel here to allow hibernation
+  # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
+  install -Dm644 "$(make -s image_name)" "$modulesdir/vmlinuz"
+
+  # Used by mkinitcpio to name the kernel
+  echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
+
+  echo "Installing modules..."
+  ZSTD_CLEVEL=19 make INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
+    DEPMOD=/doesnt/exist modules_install  # Suppress depmod
+
+  # remove build link
+  rm "$modulesdir"/build
+}
+
+_package-headers() {
+  pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
+  depends=(pahole)
+
+  cd $_srcname
+  local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
+
+  echo "Installing build files..."
+  install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map \
+    localversion.* version vmlinux
+  install -Dt "$builddir/kernel" -m644 kernel/Makefile
+  install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
+  cp -t "$builddir" -a scripts
+
+  # required when STACK_VALIDATION is enabled
+  install -Dt "$builddir/tools/objtool" tools/objtool/objtool
+
+  # required when DEBUG_INFO_BTF_MODULES is enabled
+  # install -Dt "$builddir/tools/bpf/resolve_btfids" tools/bpf/resolve_btfids/resolve_btfids
+
+  echo "Installing headers..."
+  cp -t "$builddir" -a include
+  cp -t "$builddir/arch/x86" -a arch/x86/include
+  install -Dt "$builddir/arch/x86/kernel" -m644 arch/x86/kernel/asm-offsets.s
+
+  install -Dt "$builddir/drivers/md" -m644 drivers/md/*.h
+  install -Dt "$builddir/net/mac80211" -m644 net/mac80211/*.h
+
+  # https://bugs.archlinux.org/task/13146
+  install -Dt "$builddir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
+
+  # https://bugs.archlinux.org/task/20402
+  install -Dt "$builddir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
+  install -Dt "$builddir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
+  install -Dt "$builddir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
+
+  # https://bugs.archlinux.org/task/71392
+  install -Dt "$builddir/drivers/iio/common/hid-sensors" -m644 drivers/iio/common/hid-sensors/*.h
+
+  echo "Installing KConfig files..."
+  find . -name 'Kconfig*' -exec install -Dm644 {} "$builddir/{}" \;
+
+  echo "Removing unneeded architectures..."
+  local arch
+  for arch in "$builddir"/arch/*/; do
+    [[ $arch = */x86/ ]] && continue
+    echo "Removing $(basename "$arch")"
+    rm -r "$arch"
+  done
+
+  echo "Removing documentation..."
+  rm -r "$builddir/Documentation"
+
+  echo "Removing broken symlinks..."
+  find -L "$builddir" -type l -printf 'Removing %P\n' -delete
+
+  echo "Removing loose objects..."
+  find "$builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete
+
+  echo "Stripping build tools..."
+  local file
+  while read -rd '' file; do
+    case "$(file -Sib "$file")" in
+      application/x-sharedlib\;*)      # Libraries (.so)
+        strip -v $STRIP_SHARED "$file" ;;
+      application/x-archive\;*)        # Libraries (.a)
+        strip -v $STRIP_STATIC "$file" ;;
+      application/x-executable\;*)     # Binaries
+        strip -v $STRIP_BINARIES "$file" ;;
+      application/x-pie-executable\;*) # Relocatable binaries
+        strip -v $STRIP_SHARED "$file" ;;
+    esac
+  done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
+
+  echo "Stripping vmlinux..."
+  strip -v $STRIP_STATIC "$builddir/vmlinux"
+
+  echo "Adding symlink..."
+  mkdir -p "$pkgdir/usr/src"
+  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
+}
+
+_package-docs() {
+  pkgdesc="Documentation for the $pkgdesc kernel"
+
+  cd $_srcname
+  local builddir="$pkgdir/usr/lib/modules/$(<version)/build"
+
+  echo "Installing documentation..."
+  local src dst
+  while read -rd '' src; do
+    dst="${src#Documentation/}"
+    dst="$builddir/Documentation/${dst#output/}"
+    install -Dm644 "$src" "$dst"
+  done < <(find Documentation -name '.*' -prune -o ! -type d -print0)
+
+  echo "Adding symlink..."
+  mkdir -p "$pkgdir/usr/share/doc"
+  ln -sr "$builddir/Documentation" "$pkgdir/usr/share/doc/$pkgbase"
+}
+
+pkgname=(
+  "$pkgbase"
+  "$pkgbase-headers"
+  "$pkgbase-docs"
+)
+for _p in "${pkgname[@]}"; do
+  eval "package_$_p() {
+    $(declare -f "_package${_p#$pkgbase}")
+    _package${_p#$pkgbase}
+  }"
+done
+
+# vim:set ts=8 sts=2 sw=2 et:
