@@ -47,6 +47,7 @@ jobs:
     - name: Build
       shell: bash
       run: |
+        gpg --recv-key 38DBBDC86092693E FC1B547C8D8172C8 # Linux-hardened
         reflector -p https --delay 0.5 --fastest 15 --sort rate --save /etc/pacman.d/mirrorlist
         cd $GITHUB_WORKSPACE/source/x86_64
         # https://github.com/orgs/community/discussions/55820#discussioncomment-5946136
