@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/usa-reddragon/archlinux-pkgbuild:latest@sha256:0615337f048365578400a26957d0e62cc8d125895781cacde0e70d60b7e2940a 
+      image: ghcr.io/usa-reddragon/archlinux-pkgbuild:main@sha256:c54227329072c624a5a8fe6433b8e42137d4f99bdb9bef1ee8e39b4a5e6c7452 
       options: --privileged
     steps:
     - name: Update
